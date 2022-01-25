@@ -1,0 +1,25 @@
+{
+  "name": "nuromancy",
+  "version": "1.0.0",
+  "description": "A Docker-based nodeJS app for converting numerals from base-10 to base-X",
+  "main": "index.js",
+  "scripts": {
+    "test": "jest"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/adamcin/nuromancy.git"
+  },
+  "author": "Mark Adamcin",
+  "license": "Apache-2.0",
+  "bugs": {
+    "url": "https://github.com/adamcin/nuromancy/issues"
+  },
+  "homepage": "https://github.com/adamcin/nuromancy#readme",
+  "dependencies": {
+    "express": "^4.17.2"
+  },
+  "devDependencies": {
+    "jest": "^27.4.7"
+  }
+}
