@@ -57,7 +57,34 @@ exports.expectWithinRange = expectWithinRange
 /**
  * Converts a number to a string containing the equivalent roman numeral.
  * 
- * According to https://en.wikipedia.org/wiki/Roman_numerals, ...
+ * According to https://en.wikipedia.org/wiki/Roman_numerals, the following table
+ * represents standard notation of Roman numbers within the range, mapped to decimal "places"
+ * of 1000's, 100s, 10s, and 1s. When the decimal place value is 0 in an input Arabic number,
+ * we can omit any symbol from that mapping column in the output Roman number.
+ * 
+ * ---------------------------------
+ * |   | 1000 | 100  | 10   | 1    |
+ * ---------------------------------
+ * | 1 | M    | C    | X    | I    |
+ * | 2 | MM   | CC   | XX   | II   |
+ * | 3 | MMM  | CCC  | XXX  | III  |
+ * | 4 |      | CD   | XL   | IV   |
+ * | 5 |      | D    | L    | V    |
+ * | 6 |      | DC   | LX   | VI   |
+ * | 7 |      | DCC  | LXX  | VII  |
+ * | 8 |      | DCCC | LXXX | VIII |
+ * | 9 |      | CM   | XC   | IX   |
+ * ---------------------------------
+ * 
+ * Encoding each decimal place for a given Arabic number according to the relevant column in
+ * the mapping table presents an optimal approach to handling the subtractive notation without
+ * resorting to some kind of decision tree. We will div and mod the Arabic number to isolate the 
+ * input value relevant to each column, and for the 100s, 10s, and 1s, we'll perform a 
+ * generalized lookup using a switch statement on ([1-9]) that assembles the appropriate result 
+ * from each of a different set of three characters for each column (CDM, XLC, IVX).
+ * 
+ * For the 1000s place, it is simpler to just return '', 'M', 'MM', or 'MMM' for the result of 
+ * (input / 1000).
  * 
  * @param {number} arabic 
  * @returns Promise<string>
