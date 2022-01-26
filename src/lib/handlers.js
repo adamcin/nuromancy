@@ -15,5 +15,15 @@
  * under the License.
  */
 exports.helloWorld = (req, res) => {
+    console.debug(req.query)
     res.send('Hello World!')
 };
+
+exports.romanNumeral = (req, res) => {
+    const qs = req.query
+    if (qs.query != undefined) {
+
+    } else {
+        res.status(400).send({'error': 'please specify a "query={integer}" parameter'})
+    }
+}

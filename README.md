@@ -18,13 +18,19 @@ npm install
 ### Run Service Directly
 
 ```bash
-node src/lib/index.js
+npm run start
 ```
 
 ### Run unit tests
 
 ```bash
 npm test
+```
+
+### Run Service with Live Reload using Nodemon
+
+```bash
+npm run watch
 ```
 
 ### Build and Run as Docker Container
