@@ -14,14 +14,10 @@
  * specific language governing permissions and limitations
  * under the License.
  */
-const express = require('express')
-const handlers = require('./handlers')
-const app = express()
-const port = 8080
 
-app.get('/', handlers.helloWorld)
-app.get('/romannumeral', handlers.romanNumeral)
+const { MAX_INPUT, MIN_INPUT } = require("../convert")
 
-app.listen(port, () => {
-  console.log(`nuromancy service listening on port ${port}`)
+test('expect all inputs between MIN_INPUT and MAX_INPUT to return parsed versions of themselves', async () => {
+    const inputs = Array.from({length: MAX_INPUT - MIN_INPUT + 1}, (v, k) => v)
+    //const outputs = inputs.map(value => value.toString(10)).reduce()
 })

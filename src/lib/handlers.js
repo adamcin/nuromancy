@@ -1,3 +1,5 @@
+const { convertIntegerString } = require("./convert");
+
 /**
  * Copyright 2022 Mark Adamcin. All rights reserved.
  * 
@@ -19,10 +21,16 @@ exports.helloWorld = (req, res) => {
     res.send('Hello World!')
 };
 
-exports.romanNumeral = (req, res) => {
+exports.romanNumeral = async (req, res) => {
     const qs = req.query
     if (qs.query != undefined) {
-
+        await convertIntegerString(qs.query).then(output => {
+            res.status(200).send({'input': qs.query, 'output': output})
+        }, error => {
+            console.debug(error)
+            res.status(400).send({'error': error.message})
+        })
+        
     } else {
         res.status(400).send({'error': 'please specify a "query={integer}" parameter'})
     }
