@@ -23,6 +23,17 @@ node src/lib/index.js
 npm test
 ```
 
+### Build and Run as Docker Container
+
+In Codespaces, you can run the following commands to build and run the app in the background as a container:
+
+```bash
+docker build -t nuromancy .
+docker run --rm --detach --port 8080 nuromancy:latest
+```
+
+After this, switch to the Ports tab and Cmd+click the link to open the root path in a new browser tab. 
+
 ## Approach
 
 This app is intended for use in a large organization, and is ideally deployed as a microservice due to the rapidly evolving
