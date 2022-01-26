@@ -24,10 +24,55 @@ test('testing hello world', () => {
   expect(res.send.mock.calls[0][0]).toBe('Hello World!')
 })
 
-test('testing romanNumeral', async () => {
+test('romanNumeral: test empty query string', async () => {
   const req = {}, res = { send: jest.fn(), status: jest.fn() }
   res.status.mockReturnValue(res);
   await handlers.romanNumeral(req, res).finally(() => {
     expect(res.status.mock.calls[0][0]).toBe(400)
+  })
+})
+
+test('romanNumeral: test simple case: 0 -> error', async () => {
+  const req = { query: { query: '0' } }, res = { send: jest.fn(), status: jest.fn() }
+  res.status.mockReturnValue(res);
+  await handlers.romanNumeral(req, res).finally(() => {
+    expect(res.status.mock.calls[0][0]).toBe(400)
+    expect(res.send.mock.calls[0][0]).toHaveProperty('error')
+  })
+})
+
+test('romanNumeral: test simple case: 4000 -> error', async () => {
+  const req = { query: { query: '4000' } }, res = { send: jest.fn(), status: jest.fn() }
+  res.status.mockReturnValue(res);
+  await handlers.romanNumeral(req, res).finally(() => {
+    expect(res.status.mock.calls[0][0]).toBe(400)
+    expect(res.send.mock.calls[0][0]).toHaveProperty('error')
+  })
+})
+
+test('romanNumeral: test simple case: 1 to I', async () => {
+  const req = { query: { query: '1' } }, res = { send: jest.fn(), status: jest.fn() }
+  res.status.mockReturnValue(res);
+  await handlers.romanNumeral(req, res).finally(() => {
+    expect(res.status.mock.calls[0][0]).toBe(200)
+    expect(res.send.mock.calls[0][0]).toStrictEqual({'input': '1', 'output': 'I'})
+  })
+})
+
+test('romanNumeral: test simple case: 2 to II', async () => {
+  const req = { query: { query: '2' } }, res = { send: jest.fn(), status: jest.fn() }
+  res.status.mockReturnValue(res);
+  await handlers.romanNumeral(req, res).finally(() => {
+    expect(res.status.mock.calls[0][0]).toBe(200)
+    expect(res.send.mock.calls[0][0]).toStrictEqual({'input': '2', 'output': 'II'})
+  })
+})
+
+test('romanNumeral: test simple case: 3 to III', async () => {
+  const req = { query: { query: '3' } }, res = { send: jest.fn(), status: jest.fn() }
+  res.status.mockReturnValue(res);
+  await handlers.romanNumeral(req, res).finally(() => {
+    expect(res.status.mock.calls[0][0]).toBe(200)
+    expect(res.send.mock.calls[0][0]).toStrictEqual({'input': '3', 'output': 'III'})
   })
 })

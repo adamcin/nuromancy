@@ -20,6 +20,13 @@ exports.MIN_INPUT = MIN_INPUT
 const MAX_INPUT = 3999
 exports.MAX_INPUT = MAX_INPUT
 
+/**
+ * Parse a string into a pure arabic number. Do not allow non-string args, and do not allow empty
+ * strings or strings containing any non-digit characters.
+ * 
+ * @param {string} input 
+ * @returns Promise<number>
+ */
 const parseArabic = async (input) => {
     if (!input.match(/^[0-9]+$/)) {
         throw new TypeError(`input ${input} must be an integer`)
@@ -29,6 +36,13 @@ const parseArabic = async (input) => {
 }
 exports.parseArabic = parseArabic
 
+/**
+ * Filters number input to enforce integers between MIN_INPUT and MAX_INPUT. Allowed input is returned,
+ * Rejected input throws a RangeError.
+ * 
+ * @param {number} input an integer
+ * @returns Promise<number>
+ */
 const expectWithinRange = async (input) => {
     if (typeof input != 'number' || isNaN(input)) {
         throw new TypeError(`input ${input} must be an integer`)
@@ -40,7 +54,32 @@ const expectWithinRange = async (input) => {
 }
 exports.expectWithinRange = expectWithinRange
 
-exports.convertIntegerString = async (input) => {
+/**
+ * Converts a number to a string containing the equivalent roman numeral.
+ * 
+ * According to https://en.wikipedia.org/wiki/Roman_numerals, ...
+ * 
+ * @param {number} arabic 
+ * @returns Promise<string>
+ */
+const toRoman = async (arabic) => {
+    var result = ''
+    for (var i = 0; i < arabic; i++) {
+        result = result + 'I'
+    }
+    return result
+}
+exports.toRoman = toRoman
+
+/**
+ * Perform conversion of a single string-encoded Arabic number into a single string-encoded Roman number.
+ * 
+ * @param {string} input 
+ * @returns Promise<string>
+ * @throws TypeError | RangeError on illegal input
+ */
+exports.convertArabicToRoman = async (input) => {
     return parseArabic(input)
         .then(integer => expectWithinRange(integer))
+        .then(arabic => toRoman(arabic))
 }

@@ -1,5 +1,3 @@
-const { convertIntegerString } = require("./convert");
-
 /**
  * Copyright 2022 Mark Adamcin. All rights reserved.
  * 
@@ -16,6 +14,9 @@ const { convertIntegerString } = require("./convert");
  * specific language governing permissions and limitations
  * under the License.
  */
+const { convertArabicToRoman } = require("./convert");
+
+// hello world impl provides cheerful response for service health check
 exports.helloWorld = (req, res) => {
     res.send('Hello World!')
 };
@@ -23,12 +24,12 @@ exports.helloWorld = (req, res) => {
 exports.romanNumeral = async (req, res) => {
     const qs = req.query
     if (qs !== undefined && qs.query !== undefined) {
-        await convertIntegerString(qs.query).then(output => {
-            res.status(200).send({'input': qs.query, 'output': output})
+        await convertArabicToRoman(qs.query).then(output => {
+            res.status(200).send({ 'input': qs.query, 'output': output })
         }, error => {
-            res.status(400).send({'error': error.message})
+            res.status(400).send({ 'error': error.message })
         })
     } else {
-        res.status(400).send({'error': 'please specify a "query={integer}" parameter'})
+        res.status(400).send({ 'error': 'please specify a "query={integer}" parameter' })
     }
 }
