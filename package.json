@@ -4,7 +4,12 @@
   "description": "A Docker-based nodeJS app for converting numerals from base-10 to base-X",
   "main": "index.js",
   "scripts": {
-    "test": "jest"
+    "test": "jest",
+    "coverage": "jest && coverage"
+  },
+  "jest": {
+    "coverageDirectory": "./coverage/",
+    "collectCoverage": true
   },
   "repository": {
     "type": "git",
@@ -20,6 +25,7 @@
     "express": "^4.17.2"
   },
   "devDependencies": {
+    "codecov": "^3.8.3",
     "jest": "^27.4.7"
   }
 }
