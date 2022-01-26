@@ -20,14 +20,14 @@ exports.MIN_INPUT = MIN_INPUT
 const MAX_INPUT = 3999
 exports.MAX_INPUT = MAX_INPUT
 
-const parseInput = async (input) => {
-    if (!input.match(/^[0-9]*$/)) {
+const parseArabic = async (input) => {
+    if (!input.match(/^[0-9]+$/)) {
         throw new TypeError(`input ${input} must be an integer`)
     } else {
         return parseInt(input, 10)
     }
 }
-exports.parseInput = parseInput
+exports.parseArabic = parseArabic
 
 const expectWithinRange = async (input) => {
     if (typeof input != 'number' || isNaN(input)) {
@@ -41,6 +41,6 @@ const expectWithinRange = async (input) => {
 exports.expectWithinRange = expectWithinRange
 
 exports.convertIntegerString = async (input) => {
-    return parseInput(input)
+    return parseArabic(input)
         .then(integer => expectWithinRange(integer))
 }

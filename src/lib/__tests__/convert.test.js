@@ -15,14 +15,14 @@
  * under the License.
  */
 
-const { MAX_INPUT, MIN_INPUT, parseInput, expectWithinRange } = require("../convert")
+const { MAX_INPUT, MIN_INPUT, parseArabic, expectWithinRange } = require("../convert")
 
-test('expect all inputs between MIN_INPUT and MAX_INPUT to return parsed versions of themselves', async () => {
+test('expectWithinRange: expect all inputs between MIN_INPUT and MAX_INPUT to return parsed versions of themselves', async () => {
     const inputs = Array.from({ length: MAX_INPUT - MIN_INPUT + 1 }, (v, k) => { return MIN_INPUT + k })
-    
+
     const outputPromises = inputs
         .map(value => value.toString(10))
-        .map(input => parseInput(input).then(integer => expectWithinRange(integer))) // string => Promise<number>()
+        .map(input => parseArabic(input).then(integer => expectWithinRange(integer))) // string => Promise<number>()
 
     const outputs = []
     for (var i = 0; i < outputPromises.length; i++) {
@@ -31,4 +31,19 @@ test('expect all inputs between MIN_INPUT and MAX_INPUT to return parsed version
     }
     
     expect(outputs).toEqual(expect.arrayContaining(inputs))
+})
+
+// test variations of numeric input to be sure only strings that consist of one-or-more base-10 numerals (0-9) are accepted.
+test('parseArabic: input bounds', async () => {
+    await expect(parseArabic('0')).resolves.toBe(0)
+    await expect(parseArabic('1')).resolves.toBe(1)
+    await expect(parseArabic('2000')).resolves.toBe(2000)
+    await expect(parseArabic('3999')).resolves.toBe(3999)
+    await expect(parseArabic('4000')).resolves.toBe(4000)
+
+    await expect(parseArabic('1e4')).rejects.toThrow(TypeError)
+    await expect(parseArabic({'foo':'bar'})).rejects.toThrow(TypeError)
+    await expect(parseArabic('')).rejects.toThrow(TypeError)
+    await expect(parseArabic('-1')).rejects.toThrow(TypeError)
+    await expect(parseArabic('1.2')).rejects.toThrow(TypeError)
 })
