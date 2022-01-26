@@ -23,3 +23,11 @@ test('testing hello world', () => {
   handlers.helloWorld(req, res)
   expect(res.send.mock.calls[0][0]).toBe('Hello World!')
 })
+
+test('testing romanNumeral', async () => {
+  const req = {}, res = { send: jest.fn(), status: jest.fn() }
+  res.status.mockReturnValue(res);
+  await handlers.romanNumeral(req, res).finally(() => {
+    expect(res.status.mock.calls[0][0]).toBe(400)
+  })
+})

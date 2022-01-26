@@ -15,9 +15,20 @@
  * under the License.
  */
 
-const { MAX_INPUT, MIN_INPUT } = require("../convert")
+const { MAX_INPUT, MIN_INPUT, parseInput, expectWithinRange } = require("../convert")
 
 test('expect all inputs between MIN_INPUT and MAX_INPUT to return parsed versions of themselves', async () => {
-    const inputs = Array.from({length: MAX_INPUT - MIN_INPUT + 1}, (v, k) => v)
-    //const outputs = inputs.map(value => value.toString(10)).reduce()
+    const inputs = Array.from({ length: MAX_INPUT - MIN_INPUT + 1 }, (v, k) => { return MIN_INPUT + k })
+    
+    const outputPromises = inputs
+        .map(value => value.toString(10))
+        .map(input => parseInput(input).then(integer => expectWithinRange(integer))) // string => Promise<number>()
+
+    const outputs = []
+    for (var i = 0; i < outputPromises.length; i++) {
+        const result = await outputPromises[i].catch(() => 0)
+        outputs.push(result)
+    }
+    
+    expect(outputs).toEqual(expect.arrayContaining(inputs))
 })
