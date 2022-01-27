@@ -2,9 +2,11 @@
   "name": "nuromancy",
   "version": "1.0.0",
   "description": "A Docker-based nodeJS app for converting numerals from base-10 to base-X",
-  "main": "index.js",
+  "main": "dist/worker.js",
+  "source": "src/lib/index.js",
   "scripts": {
     "start": "node ./src/lib/index.js",
+    "build": "parcel build --dist-dir ./dist",
     "watch": "nodemon ./src/lib/index.js",
     "test": "jest",
     "coverage": "jest && coverage"
@@ -31,6 +33,16 @@
     "connect-livereload": "^0.6.1",
     "jest": "^27.4.7",
     "livereload": "^0.9.3",
-    "nodemon": "^2.0.15"
+    "nodemon": "^2.0.15",
+    "parcel": "^2.2.1"
+  },
+  "engines": {
+    "node": ">= 12"
+  },
+  "targets": {
+    "main": {
+      "includeNodeModules": true,
+      "distDir": "./dist"
+    }
   }
 }

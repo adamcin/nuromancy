@@ -33,6 +33,13 @@ npm test
 npm run watch
 ```
 
+### Build and run single worker.js using Parcel
+
+```bash
+npm run build
+node ./dist/worker.js
+```
+
 ### Build and Run as Docker Container
 
 In Codespaces, you can run the following commands to build and run the app in the background as a container:
