@@ -22,19 +22,13 @@ test('expectWithinRange: expect all inputs between MIN_INPUT and MAX_INPUT to re
     const inputs = Array.from({ length: MAX_INPUT - MIN_INPUT + 1 }, (v, k) => { return MIN_INPUT + k })
 
     // map the inputs to an array of promises for the parsed and range-checked outputs
-    const outputPromises = inputs
+    const outputs = Promise.all(inputs
         .map(value => value.toString(10))
         .map(input => parseArabic(input).then(integer => expectWithinRange(integer))) // string => Promise<number>()
-
-    // await the promises in a for-loop to avoid passing an async function to Array.map
-    const outputs = []
-    for (var i = 0; i < outputPromises.length; i++) {
-        const result = await outputPromises[i].catch(() => 0)
-        outputs.push(result)
-    }
-
+    )
+    
     // deep compare the inputs to the outputs
-    expect(outputs).toEqual(expect.arrayContaining(inputs))
+    await expect(outputs).resolves.toEqual(expect.arrayContaining(inputs))
 })
 
 // perform some checks for throws near min/max input bounds

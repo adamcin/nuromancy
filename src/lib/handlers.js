@@ -36,14 +36,14 @@ exports.indexHtml = (req, res) => {
 };
 
 exports.romanNumeral = async (req, res) => {
-    const qs = req.query
-    if (qs !== undefined && qs.query !== undefined) {
+    const qs = req.query ?? {}
+    if (qs.query !== undefined) {
         await convertArabicToRoman(qs.query).then(output => {
             res.status(200).send({ 'input': qs.query, 'output': output })
         }, error => {
             res.status(400).send({ 'error': error.message })
         })
-    } else if (qs !== undefined && qs.min !== undefined && qs.max !== undefined) {
+    } else if (qs.min !== undefined && qs.max !== undefined) {
         await convertArabicToRomanRange(qs.min, qs.max).then(conversions => {
             res.status(200).send({ 'conversions': conversions.map(({ arabic, roman }) => { 
                 return { 'input': arabic, 'output': roman } 
