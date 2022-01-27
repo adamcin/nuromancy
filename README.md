@@ -2,6 +2,8 @@
 
 [![Node.js CI](https://github.com/adamcin/nuromancy/actions/workflows/node.js.yml/badge.svg)](https://github.com/adamcin/nuromancy/actions/workflows/node.js.yml)
 
+[![Docker Image CI](https://github.com/adamcin/nuromancy/actions/workflows/docker-image.yml/badge.svg)](https://github.com/adamcin/nuromancy/actions/workflows/docker-image.yml)
+
 [![codecov](https://codecov.io/gh/adamcin/nuromancy/branch/main/graph/badge.svg?token=EJCHG8H8R2)](https://codecov.io/gh/adamcin/nuromancy)
 
 A Docker-based nodeJS app for converting numerals from base-10 to base-X.
