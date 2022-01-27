@@ -26,13 +26,12 @@
   },
   "homepage": "https://github.com/adamcin/nuromancy#readme",
   "dependencies": {
+    "applicationinsights": "^2.2.0",
     "express": "^4.17.2"
   },
   "devDependencies": {
     "codecov": "^3.8.3",
-    "connect-livereload": "^0.6.1",
     "jest": "^27.4.7",
-    "livereload": "^0.9.3",
     "nodemon": "^2.0.15",
     "parcel": "^2.2.1"
   },

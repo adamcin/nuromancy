@@ -15,13 +15,36 @@
  * under the License.
  */
 const express = require('express')
-const handlers = require('./handlers')
+const appInsights = require('applicationinsights')
 const app = express()
-const port = 8080
+const expressAi = require('./expressAi')
+const handlers = require('./handlers')
 
+// initialize ai default client if env var is present. 
+// otherwise, init logger with default console facade.
+const ai = function () {
+  if (process.env.APPINSIGHTS_INSTRUMENTATIONKEY) {
+    // setup sdk with implicit instrumentation key provided by ENV var
+    // APPINSIGHTS_INSTRUMENTATIONKEY
+    appInsights.setup()
+      .setAutoCollectRequests(false)
+      .setAutoCollectExceptions(false)
+      .start()
+
+    return expressAi.initAppLogger(app, appInsights.defaultClient)
+  } else {
+    return expressAi.initAppLogger(app)
+  }
+}()
+
+// setup app routes.
+app.use(ai.logRequest)
 app.get('/', handlers.indexHtml)
 app.get('/romannumeral', handlers.romanNumeral)
+app.use(ai.logErrors)
 
+// start the server
+const port = 8080
 app.listen(port, () => {
-  console.log(`nuromancy service listening on port ${port}`)
+  app.locals.log.traceInfo(`nuromancy service listening on port ${port}`)
 })
