@@ -36,7 +36,7 @@ exports.indexHtml = (req, res) => {
 };
 
 exports.romanNumeral = async (req, res) => {
-    const qs = req.query ?? {}
+    const qs = req.query ? req.query : {};
     if (qs.query !== undefined) {
         await convertArabicToRoman(qs.query).then(output => {
             res.status(200).send({ 'input': qs.query, 'output': output })
