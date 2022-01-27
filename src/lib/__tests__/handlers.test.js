@@ -55,7 +55,7 @@ test('romanNumeral: test simple case: 1 to I', async () => {
   res.status.mockReturnValue(res);
   await handlers.romanNumeral(req, res).finally(() => {
     expect(res.status.mock.calls[0][0]).toBe(200)
-    expect(res.send.mock.calls[0][0]).toStrictEqual({'input': '1', 'output': 'I'})
+    expect(res.send.mock.calls[0][0]).toStrictEqual({ 'input': '1', 'output': 'I' })
   })
 })
 
@@ -64,7 +64,7 @@ test('romanNumeral: test simple case: 2 to II', async () => {
   res.status.mockReturnValue(res);
   await handlers.romanNumeral(req, res).finally(() => {
     expect(res.status.mock.calls[0][0]).toBe(200)
-    expect(res.send.mock.calls[0][0]).toStrictEqual({'input': '2', 'output': 'II'})
+    expect(res.send.mock.calls[0][0]).toStrictEqual({ 'input': '2', 'output': 'II' })
   })
 })
 
@@ -73,6 +73,44 @@ test('romanNumeral: test simple case: 3 to III', async () => {
   res.status.mockReturnValue(res);
   await handlers.romanNumeral(req, res).finally(() => {
     expect(res.status.mock.calls[0][0]).toBe(200)
-    expect(res.send.mock.calls[0][0]).toStrictEqual({'input': '3', 'output': 'III'})
+    expect(res.send.mock.calls[0][0]).toStrictEqual({ 'input': '3', 'output': 'III' })
+  })
+})
+
+test('romanNumeral: range test simple error: 0 to 2', async () => {
+  const req = { query: { min: '0', max: '2' } }, res = { send: jest.fn(), status: jest.fn() }
+  res.status.mockReturnValue(res);
+  await handlers.romanNumeral(req, res).finally(() => {
+    expect(res.status.mock.calls[0][0]).toBe(400)
+    expect(res.send.mock.calls[0][0]).toHaveProperty('error')
+  })
+})
+
+test('romanNumeral: range test simple error: 3998 to 4000', async () => {
+  const req = { query: { min: '0', max: '2' } }, res = { send: jest.fn(), status: jest.fn() }
+  res.status.mockReturnValue(res);
+  await handlers.romanNumeral(req, res).finally(() => {
+    expect(res.status.mock.calls[0][0]).toBe(400)
+    expect(res.send.mock.calls[0][0]).toHaveProperty('error')
+  })
+})
+
+test('romanNumeral: range test simple error: 1 to 1', async () => {
+  const req = { query: { min: '1', max: '1' } }, res = { send: jest.fn(), status: jest.fn() }
+  res.status.mockReturnValue(res);
+  await handlers.romanNumeral(req, res).finally(() => {
+    expect(res.status.mock.calls[0][0]).toBe(400)
+    expect(res.send.mock.calls[0][0]).toHaveProperty('error')
+  })
+})
+
+
+test('romanNumeral: range test simple case: 1 to 2', async () => {
+  const req = { query: { min: '1', max: '2' } }, res = { send: jest.fn(), status: jest.fn() }
+  res.status.mockReturnValue(res);
+  await handlers.romanNumeral(req, res).finally(() => {
+    expect(res.status.mock.calls[0][0]).toBe(200)
+    expect(res.send.mock.calls[0][0])
+      .toStrictEqual({ 'conversions': [{ 'input': '1', 'output': 'I' }, { 'input': '2', 'output': 'II' }] })
   })
 })

@@ -130,6 +130,46 @@ exports.toRoman = toRoman
  */
 exports.convertArabicToRoman = async (input) => {
     return parseArabic(input)
-        .then(integer => expectWithinRange(integer))
+        .then(arabic => expectWithinRange(arabic))
         .then(arabic => toRoman(arabic))
+}
+
+/**
+ * Expands the inclusive range defined by the provided [ min, max ] pair into
+ * a combined Promise for an array of objects of the shape: 
+ * 
+ * { "arabic": string, "roman": string }
+ * 
+ * @param {number[]} [ min, max ]
+ * @returns Promise<{ arabic: string, roman: string }[]>
+ */
+const expandArabicRange = ([min, max]) => {
+    if (min < max) {
+        return Promise.all(Array.from({ length: max - min + 1 }, (_, k) => {
+            const arabic = min + k
+            return toRoman(arabic).then(roman => { return { arabic: arabic.toString(10), roman: roman } })
+        }))
+    } else {
+        return Promise.reject(new RangeError(`min ${min} must be less than max ${max}`))
+    }
+}
+
+/**
+ * Convert a range of arabic numbers determined by min/max 
+ * inclusive bounds.
+ * 
+ * Both min and max arguments must be strings representing 
+ * valid arabic integers within the range of MIN_INPUT to 
+ * MAX_INPUT, and min must be numerically less than max.
+ * 
+ * @param {string} min 
+ * @param {string} max 
+ * @returns Promise<{ arabic: string, roman: string }[]>
+ * @throws TypeError | RangeError on illegal input (as rejected Promise)
+ */
+exports.convertArabicToRomanRange = (min, max) => {
+    return Promise.all([
+        parseArabic(min).then(arabic => expectWithinRange(arabic)),
+        parseArabic(max).then(arabic => expectWithinRange(arabic))
+    ]).then(pair => expandArabicRange(pair))
 }
