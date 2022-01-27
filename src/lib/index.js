@@ -20,6 +20,7 @@ const app = express()
 const port = 8080
 
 app.get('/', handlers.helloWorld)
+app.get('/romannumeral', handlers.romanNumeral)
 
 app.listen(port, () => {
   console.log(`nuromancy service listening on port ${port}`)

@@ -14,6 +14,22 @@
  * specific language governing permissions and limitations
  * under the License.
  */
+const { convertArabicToRoman } = require("./convert");
+
+// hello world impl provides cheerful response for service health check
 exports.helloWorld = (req, res) => {
     res.send('Hello World!')
 };
+
+exports.romanNumeral = async (req, res) => {
+    const qs = req.query
+    if (qs !== undefined && qs.query !== undefined) {
+        await convertArabicToRoman(qs.query).then(output => {
+            res.status(200).send({ 'input': qs.query, 'output': output })
+        }, error => {
+            res.status(400).send({ 'error': error.message })
+        })
+    } else {
+        res.status(400).send({ 'error': 'please specify a "query={integer}" parameter' })
+    }
+}
