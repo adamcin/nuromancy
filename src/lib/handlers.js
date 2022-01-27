@@ -16,9 +16,23 @@
  */
 const { convertArabicToRoman, convertArabicToRomanRange } = require("./convert");
 
-// hello world impl provides cheerful response for service health check
-exports.helloWorld = (req, res) => {
-    res.send('Hello World!')
+exports.indexHtml = (req, res) => {
+    res.send(`
+    <body>
+    <form name=single action=/romannumeral method=get>
+        <label for=query>Query</label>
+        <input id=query name=query>
+        <button type=submit>Submit</button>
+    </form>
+    <form name=range action=/romannumeral method=get>
+        <label for=min>Min</label>
+        <input id=min name=min>
+        <label for=max>Max</label>
+        <input id=max name=max>
+        <button type=submit>Submit</button>
+    </form>
+    </body>
+    `)
 };
 
 exports.romanNumeral = async (req, res) => {
@@ -38,6 +52,6 @@ exports.romanNumeral = async (req, res) => {
             res.status(400).send({ 'error': error.message })
         })
     } else {
-        res.status(400).send({ 'error': 'please specify a "query={integer}" parameter' })
+        res.status(400).send({ 'error': 'please specify a "query={integer}" parameter, or both "min={integer}" and "max={integer}" parameters for a range conversion' })
     }
 }
