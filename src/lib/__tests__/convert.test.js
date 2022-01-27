@@ -69,3 +69,77 @@ test('toRoman: check simple cases for 1, 2, 3', async () => {
     await expect(toRoman(2)).resolves.toBe('II')
     await expect(toRoman(3)).resolves.toBe('III')
 })
+
+// test bounds of thousands place
+test('toRoman: check thousands', async () => {
+    await expect(toRoman(0)).resolves.toBe('')
+    await expect(toRoman(1000)).resolves.toBe('M')
+    await expect(toRoman(2000)).resolves.toBe('MM')
+    await expect(toRoman(3000)).resolves.toBe('MMM')
+    await expect(toRoman(4000)).resolves.toBe('')
+})
+
+// test bounds of hundreds place
+test('toRoman: check hundreds', async () => {
+    await expect(toRoman(0)).resolves.toBe('')
+    await expect(toRoman(100)).resolves.toBe('C')
+    await expect(toRoman(200)).resolves.toBe('CC')
+    await expect(toRoman(300)).resolves.toBe('CCC')
+    await expect(toRoman(400)).resolves.toBe('CD')
+    await expect(toRoman(500)).resolves.toBe('D')
+    await expect(toRoman(600)).resolves.toBe('DC')
+    await expect(toRoman(700)).resolves.toBe('DCC')
+    await expect(toRoman(800)).resolves.toBe('DCCC')
+    await expect(toRoman(900)).resolves.toBe('CM')
+    await expect(toRoman(1000)).resolves.toBe('M')
+})
+
+// test bounds of tens place
+test('toRoman: check tens', async () => {
+    await expect(toRoman(0)).resolves.toBe('')
+    await expect(toRoman(10)).resolves.toBe('X')
+    await expect(toRoman(20)).resolves.toBe('XX')
+    await expect(toRoman(30)).resolves.toBe('XXX')
+    await expect(toRoman(40)).resolves.toBe('XL')
+    await expect(toRoman(50)).resolves.toBe('L')
+    await expect(toRoman(60)).resolves.toBe('LX')
+    await expect(toRoman(70)).resolves.toBe('LXX')
+    await expect(toRoman(80)).resolves.toBe('LXXX')
+    await expect(toRoman(90)).resolves.toBe('XC')
+    await expect(toRoman(100)).resolves.toBe('C')
+})
+
+// test bounds of ones place
+test('toRoman: check ones', async () => {
+    await expect(toRoman(0)).resolves.toBe('')
+    await expect(toRoman(1)).resolves.toBe('I')
+    await expect(toRoman(2)).resolves.toBe('II')
+    await expect(toRoman(3)).resolves.toBe('III')
+    await expect(toRoman(4)).resolves.toBe('IV')
+    await expect(toRoman(5)).resolves.toBe('V')
+    await expect(toRoman(6)).resolves.toBe('VI')
+    await expect(toRoman(7)).resolves.toBe('VII')
+    await expect(toRoman(8)).resolves.toBe('VIII')
+    await expect(toRoman(9)).resolves.toBe('IX')
+    await expect(toRoman(10)).resolves.toBe('X')
+})
+
+// test Wikipedia examples and some other complex examples of note
+test('toRoman: spot check complex numbers', async () => {
+    await expect(toRoman(39)).resolves.toBe('XXXIX')
+    await expect(toRoman(246)).resolves.toBe('CCXLVI')
+    await expect(toRoman(789)).resolves.toBe('DCCLXXXIX')
+    await expect(toRoman(2421)).resolves.toBe('MMCDXXI')
+    // test for place omissions
+    await expect(toRoman(160)).resolves.toBe('CLX')
+    await expect(toRoman(207)).resolves.toBe('CCVII')
+    await expect(toRoman(1009)).resolves.toBe('MIX')
+    await expect(toRoman(1066)).resolves.toBe('MLXVI')
+    // mmm...
+    await expect(toRoman(1983)).resolves.toBe('MCMLXXXIII')
+    await expect(toRoman(2022)).resolves.toBe('MMXXII')
+    await expect(toRoman(MAX_INPUT)).resolves.toBe('MMMCMXCIX')
+    await expect(toRoman(1776)).resolves.toBe('MDCCLXXVI')
+    await expect(toRoman(1918)).resolves.toBe('MCMXVIII')
+    await expect(toRoman(1954)).resolves.toBe('MCMLIV')
+})

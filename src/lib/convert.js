@@ -90,11 +90,34 @@ exports.expectWithinRange = expectWithinRange
  * @returns Promise<string>
  */
 const toRoman = async (arabic) => {
-    var result = ''
-    for (var i = 0; i < arabic; i++) {
-        result = result + 'I'
+    const lookupThousands = (digit) => {
+        switch (digit) {
+            case 3: return 'MMM'
+            case 2: return 'MM'
+            case 1: return 'M'
+            default: return ''
+        }
     }
-    return result
+
+    const lookupPlace = (digit, one, five, ten) => {
+        switch (digit) {
+            case 9: return `${one}${ten}`
+            case 8: return `${five}${one}${one}${one}`
+            case 7: return `${five}${one}${one}`
+            case 6: return `${five}${one}`
+            case 5: return `${five}`
+            case 4: return `${one}${five}`
+            case 3: return `${one}${one}${one}`
+            case 2: return `${one}${one}`
+            case 1: return `${one}`
+            default: return ''
+        }
+    }
+
+    return lookupThousands(Math.floor(arabic / 1000))
+        + lookupPlace(Math.floor((arabic % 1000) / 100), 'C', 'D', 'M')
+        + lookupPlace(Math.floor((arabic % 100) / 10), 'X', 'L', 'C')
+        + lookupPlace(arabic % 10, 'I', 'V', 'X')
 }
 exports.toRoman = toRoman
 
