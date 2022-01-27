@@ -24,8 +24,7 @@
   },
   "homepage": "https://github.com/adamcin/nuromancy#readme",
   "dependencies": {
-    "express": "^4.17.2",
-    "rxjs": "^7.5.2"
+    "express": "^4.17.2"
   },
   "devDependencies": {
     "codecov": "^3.8.3",

@@ -14,7 +14,7 @@
  * specific language governing permissions and limitations
  * under the License.
  */
-const { convertArabicToRoman } = require("./convert");
+const { convertArabicToRoman, convertArabicToRomanRange } = require("./convert");
 
 // hello world impl provides cheerful response for service health check
 exports.helloWorld = (req, res) => {
@@ -26,6 +26,14 @@ exports.romanNumeral = async (req, res) => {
     if (qs !== undefined && qs.query !== undefined) {
         await convertArabicToRoman(qs.query).then(output => {
             res.status(200).send({ 'input': qs.query, 'output': output })
+        }, error => {
+            res.status(400).send({ 'error': error.message })
+        })
+    } else if (qs !== undefined && qs.min !== undefined && qs.max !== undefined) {
+        await convertArabicToRomanRange(qs.min, qs.max).then(conversions => {
+            res.status(200).send({ 'conversions': conversions.map(({ arabic, roman }) => { 
+                return { 'input': arabic, 'output': roman } 
+            }) })
         }, error => {
             res.status(400).send({ 'error': error.message })
         })
