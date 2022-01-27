@@ -19,7 +19,7 @@ const handlers = require('./handlers')
 const app = express()
 const port = 8080
 
-app.get('/', handlers.helloWorld)
+app.get('/', handlers.indexHtml)
 app.get('/romannumeral', handlers.romanNumeral)
 
 app.listen(port, () => {
