@@ -33,6 +33,9 @@ FROM node:12-alpine
 # express is expected to listen on 8080
 EXPOSE 8080
 
+# note that AppInsights logging is supported when this ENV is populated
+ENV APPINSIGHTS_INSTRUMENTATIONKEY ""
+
 WORKDIR /app
 
 COPY --from=npm-build /app/dist/worker.js /app/worker.js
