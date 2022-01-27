@@ -46,7 +46,7 @@ In Codespaces, you can run the following commands to build and run the app in th
 
 ```bash
 docker build -t nuromancy .
-docker run --rm --detach --port 8080 nuromancy:latest
+docker run --rm --detach --port 8080:8080 nuromancy:latest
 ```
 
 After this, switch to the Ports tab and Cmd+click the link to open the root path in a new browser tab. 
@@ -66,7 +66,7 @@ clay-tablet/marble friendly serialization format.
 
 * Dockerfile for deployment as a container in AKS or EKS clusters.
 
-* RxJS for parallelization, because of the unavoidable I/O boundness of the conversion algorithm, which depends on shouting across a crowded 
+* Parallelization for Arabic range request processing, because of the unavoidable I/O boundness of the conversion algorithm, which depends on shouting across a crowded 
 forum to an Azure Chisel Worker Pool.
 
 * Jest for unit and integration testing.
