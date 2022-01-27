@@ -14,10 +14,7 @@
 # under the License.
 
 # be consistent with install instructions in readme
-FROM node:12-alpine
-
-# express is expected to listen on 8080
-EXPOSE 8080
+FROM node:12-alpine as npm-build
 
 ADD . /app
 
@@ -28,5 +25,17 @@ RUN npm install
 # run tests as part of image build
 RUN npm test
 
+RUN npm run build
+
+# run worker.js
+FROM node:12-alpine
+
+# express is expected to listen on 8080
+EXPOSE 8080
+
+WORKDIR /app
+
+COPY --from=npm-build /app/dist/worker.js /app/worker.js
+
 # docker image should only be used to run this cmd
-ENTRYPOINT [ "node", "src/lib/index.js" ]
+ENTRYPOINT [ "node", "worker.js" ]
