@@ -54,6 +54,8 @@ For convenience when manually testing the service in a browser, a simple html pa
 
 Submitting either form will trigger the appropriate service response, and be displayed using the browser's default JSON rendering behavior.
 
+![nuromancy_form](https://user-images.githubusercontent.com/524972/151669029-b26190ae-305c-48b3-8e52-4152fa0047ae.png)
+
 ## Welcome
 
 This app is intended for use in a large organization, and is ideally deployed as a microservice due to the rapidly evolving
