@@ -8,6 +8,54 @@
 
 A Docker-based nodeJS app for converting numerals from base-10 to base-X.
 
+## Usage
+
+The app has two primary usage modes:
+
+### `GET /romannumeral?query={integer}`
+
+Convert a single Arabic numeral to a Roman numeral. 
+
+Allowed values for the `query` parameter are integers between `1` and `3999`, inclusive.
+
+Example Request:
+
+```
+GET /romannumeral?query=2022
+Host: localhost:8080
+```
+
+Response:
+
+```json
+{"input":"2022", "output":"MMXXII"}
+```
+
+### `GET /romannumeral?min={integer}&max={integer}`
+
+Convert a range of Arabic numerals to equivalent Roman numerals. The response will contain a `conversions` collection of the same response objects that would be returned if each number of the range were converted individually.
+
+Allowed values for the `min` and `max` parameters are integers between `1` and `3999`, inclusive. In addition, the value of the `min` parameter must be numerically less than the value of the `max` parameter.
+
+```
+GET /romannumeral?min=5&max=7
+Host: localhost:8080
+```
+
+Response:
+
+```json
+{"conversions":[{"input":"5","output":"V"},{"input":"6","output":"VI"},{"input":"7","output":"VII"}]}
+```
+
+### `GET /`
+
+For convenience when manually testing the service in a browser, a simple html page is served for the root resource that displays two forms: A `single` conversion form accepting a `Query` parameter, and a `range` conversion form accepting `Min` and `Max` parameters. 
+
+Submitting either form will trigger the appropriate service response, and be displayed using the browser's default JSON rendering behavior.
+
+![nuromancy_form](https://user-images.githubusercontent.com/524972/151669029-b26190ae-305c-48b3-8e52-4152fa0047ae.png)
+
 ## Welcome
 
 This app is intended for use in a large organization, and is ideally deployed as a microservice due to the rapidly evolving
